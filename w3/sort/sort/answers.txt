@@ -1,0 +1,12 @@
+sort1 uses: TODO
+Merge sort
+How do you know?: TODO
+v82/r93/s99
+sort2 uses: TODO
+Bubble sort
+How do you know?: TODO
+v74/r89/s90
+sort3 uses: TODO
+Selection sort
+How do you know?: TODO
+v82/r87/s89
