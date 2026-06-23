@@ -1,0 +1,138 @@
+-- Find the crime report
+SELECT *
+FROM crime_scene_reports
+WHERE year = 2023
+  AND month = 7
+  AND day = 28
+  AND street = 'Humphrey Street';
+
+-- Read witness interviews from that day
+SELECT *
+FROM interviews
+WHERE year = 2023
+  AND month = 7
+  AND day = 28;
+
+-- Find cars that left the bakery parking lot shortly after the theft
+SELECT *
+FROM bakery_security_logs
+WHERE year = 2023
+  AND month = 7
+  AND day = 28
+  AND hour = 10
+  AND minute BETWEEN 15 AND 25;
+
+-- Identify those people
+SELECT *
+FROM people
+WHERE license_plate IN
+(
+    SELECT license_plate
+    FROM bakery_security_logs
+    WHERE year = 2023
+      AND month = 7
+      AND day = 28
+      AND hour = 10
+      AND minute BETWEEN 15 AND 25
+);
+
+-- Find ATM withdrawals on Leggett Street that day
+SELECT *
+FROM atm_transactions
+WHERE year = 2023
+  AND month = 7
+  AND day = 28
+  AND atm_location = 'Leggett Street'
+  AND transaction_type = 'withdraw';
+
+-- Match withdrawals to people
+SELECT p.*
+FROM people p
+JOIN bank_accounts b
+ON p.id = b.person_id
+WHERE b.account_number IN
+(
+    SELECT account_number
+    FROM atm_transactions
+    WHERE year = 2023
+      AND month = 7
+      AND day = 28
+      AND atm_location = 'Leggett Street'
+      AND transaction_type = 'withdraw'
+);
+
+-- Find short phone calls made that day
+SELECT *
+FROM phone_calls
+WHERE year = 2023
+  AND month = 7
+  AND day = 28
+  AND duration < 60;
+
+-- Match callers to people
+SELECT *
+FROM people
+WHERE phone_number IN
+(
+    SELECT caller
+    FROM phone_calls
+    WHERE year = 2023
+      AND month = 7
+      AND day = 28
+      AND duration < 60
+);
+
+-- Find the earliest flight on July 29
+SELECT *
+FROM flights
+WHERE year = 2023
+  AND month = 7
+  AND day = 29
+ORDER BY hour, minute
+LIMIT 1;
+
+-- Find passengers on that flight
+SELECT p.*
+FROM people p
+JOIN passengers pa
+ON p.passport_number = pa.passport_number
+WHERE pa.flight_id =
+(
+    SELECT id
+    FROM flights
+    WHERE year = 2023
+      AND month = 7
+      AND day = 29
+    ORDER BY hour, minute
+    LIMIT 1
+);
+
+-- Intersect suspects from:
+-- bakery parking lot
+-- ATM withdrawal
+-- short phone call
+-- earliest flight passenger
+
+-- Once thief identified, find accomplice
+SELECT receiver
+FROM phone_calls
+WHERE caller = 'THIEF_PHONE_NUMBER'
+  AND year = 2023
+  AND month = 7
+  AND day = 28
+  AND duration < 60;
+
+-- Find accomplice's name
+SELECT name
+FROM people
+WHERE phone_number = 'RECEIVER_PHONE_NUMBER';
+
+-- Find destination city
+SELECT city
+FROM airports
+WHERE id =
+(
+    SELECT destination_airport_id
+    FROM flights
+    WHERE id = 'THIEF_FLIGHT_ID'
+);
