@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trivia!</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Montserrat, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+        }
+
+        .container {
+            width: 60%;
+            margin: auto;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.2s ease;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // =========================
+        // PART 1: MULTIPLE CHOICE
+        // =========================
+        const mcqButtons = document.querySelectorAll(".mcq");
+        const mcqResult = document.getElementById("q1Result");
+
+        mcqButtons.forEach(button => {
+            button.addEventListener("click", function () {
+
+                // reset all buttons
+                mcqButtons.forEach(b => {
+                    b.style.backgroundColor = "";
+                });
+
+                if (button.dataset.correct === "true") {
+                    button.style.backgroundColor = "green";
+                    mcqResult.textContent = "Correct!";
+                    mcqResult.style.color = "green";
+                } else {
+                    button.style.backgroundColor = "red";
+                    mcqResult.textContent = "Incorrect";
+                    mcqResult.style.color = "red";
+                }
+            });
+        });
+
+
+        // =========================
+        // PART 2: FREE RESPONSE
+        // =========================
+        const checkBtn = document.getElementById("checkFree");
+        const input = document.querySelector("input[name='q2']");
+        const frResult = document.getElementById("q2Result");
+
+        checkBtn.addEventListener("click", function () {
+
+            const answer = input.value.trim();
+
+            if (answer === "4") {
+                input.style.backgroundColor = "lightgreen";
+                frResult.textContent = "Correct!";
+                frResult.style.color = "green";
+            } else {
+                input.style.backgroundColor = "#ffb3b3";
+                frResult.textContent = "Incorrect";
+                frResult.style.color = "red";
+            }
+        });
+
+    });
+    </script>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Trivia!</h1>
+</div>
+
+<div class="container">
+
+    <!-- ===================== -->
+    <!-- PART 1: MCQ -->
+    <!-- ===================== -->
+    <div class="section">
+        <h2>Part 1: Multiple Choice</h2>
+        <hr>
+
+        <p>What is the capital of France?</p>
+
+        <button class="mcq" data-correct="false">Berlin</button>
+        <button class="mcq" data-correct="false">Madrid</button>
+        <button class="mcq" data-correct="true">Paris</button>
+        <button class="mcq" data-correct="false">Rome</button>
+
+        <p id="q1Result"></p>
+    </div>
+
+    <!-- ===================== -->
+    <!-- PART 2: FREE RESPONSE -->
+    <!-- ===================== -->
+    <div class="section">
+        <h2>Part 2: Free Response</h2>
+        <hr>
+
+        <p>What is the square root of 16?</p>
+
+        <input type="text" name="q2">
+        <button id="checkFree">Submit</button>
+
+        <p id="q2Result"></p>
+    </div>
+
+</div>
+
+</body>
+</html>
