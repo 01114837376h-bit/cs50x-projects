@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quoted
+{% endblock %}
+
+{% block main %}    
+<form action="/quote" method="post">
+        <input class="form-control mx-auto w-auto" name="symbol" placeholder="Symbol" type="text">
+        <button class="btn btn-primary" type="submit">Look up another symbol</button>
+    <a class="btn btn-secondary" href="/quote">Look up another symbol</a>
+    </form>
+    <div class="mb-3">
+        <p class="fs-4">
+            {% if quote %}
+            A share of <strong>{{ quote.name }} ({{ quote.symbol }})</strong> costs <strong>{{ quote.price | usd }}</strong>.
+            {% endif %}
+        </p>
+    </div>
+
+{% endblock %}

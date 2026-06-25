@@ -1,0 +1,66 @@
+
+
+
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+<table>
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row["symbol"] }}</td>
+
+            <td>
+                <form action="/buy" method="post">
+                    <input
+                        type="hidden"
+                        name="symbol"
+                        value="{{ row['symbol'] }}"
+                    >
+
+                    <input
+                        type="number"
+                        min="1"
+                        name="shares"
+                        placeholder="Shares"
+                    >
+
+                    <button type="submit">
+                        Buy
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(function() {
+            $("form").on("submit", function() {
+                return confirm("Are you sure?");
+            });
+        });
+    </script>
+{% endblock %}
+{% block styles %}
+    <style>
+        form {
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
+
